@@ -1,5 +1,7 @@
 import searchShows from "@/services/searchShows";
-import { Show } from "@/types/show";
+import { ErrorResponse } from "@/types/errorResponse";
+import { SearchShowsApiResponse } from "@/types/searchShowsApiResponse";
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const DEFAULT_PAGE = 1;
@@ -7,7 +9,7 @@ const DEFAULT_PAGE_SIZE = 10;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Show[]>
+  res: NextApiResponse<SearchShowsApiResponse | ErrorResponse>
 ) {
   try {
     const searchTerm = req?.query?.term as string;
@@ -17,7 +19,7 @@ export default async function handler(
     const results = await searchShows(searchTerm, page, pageSize);
 
     res.status(200).json(results);
-  } catch (error) {
-    res.status(500).json([]);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
   }
 }
