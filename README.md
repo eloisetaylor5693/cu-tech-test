@@ -18,7 +18,7 @@ npm run dev
 ## Limitations
 
 - The tvmaze API does not support paging.
-- The tvmaze API seems to be limited to 10 results only.  I tried various search terms and none gave more than 10 results.  
+- The tvmaze API seems to be limited to 10 results only. I tried various search terms and none gave more than 10 results.
   - Tried these searches:
     - https://api.tvmaze.com/search/shows?q=banana
     - https://api.tvmaze.com/search/shows?q=the
@@ -31,6 +31,8 @@ npm run dev
 - Using **nextjs** because it's really quick and easy to spin up a backend and frontned layer
 - Using **Axios** because it's an easy to use library
 - Implemented caching with **axios-cache-interceptor** because it plugs in nicely with axios, and persists caching of different requests. **fetch** only seems to cache the last request, so when the search term changes, the next request is not cached even if the term was searched recently
+- Used comically large fonts, and split the name and genres on 2 lines so that you can see the infinite scrolling. Without this everything loads before you get a change to scroll because everything is in view
+- Added an arbitrary wait so you can see the loading state in the UI.  Without it everything loads too fast to see it
 
 ## With more time I would have...
 
