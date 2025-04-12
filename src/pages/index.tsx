@@ -26,12 +26,20 @@ export default function Home() {
 
   const lastShowElementRef = useInfiniteScroll(loading, hasMore, fetchShows);
 
-  const handleSearchBoxChange = (
+  const handleSearchBoxKeypress = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === "Enter" || event.key === "Tab") {
       fetchShows();
     }
+  };
+
+  const handleSearchBoxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log("e.target.value", event.target.value);
+    resetSearch();
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -46,12 +54,8 @@ export default function Home() {
           type="text"
           className="p-2 border border-gray-300 rounded-md"
           placeholder="Search shows"
-          onKeyDown={handleSearchBoxChange}
-          onChange={(e) => {
-            console.log("e.target.value", e.target.value);
-            resetSearch();
-            setSearchTerm(e.target.value);
-          }}
+          onKeyDown={handleSearchBoxKeypress}
+          onChange={handleSearchBoxChange}
         />
 
         <ol className="list-outside list-decimal mt-6">
