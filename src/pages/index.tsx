@@ -1,6 +1,7 @@
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { useSearchShows } from "@/hooks/useSearchShows";
 import { Show } from "@/types/show";
 import { Geist, Geist_Mono } from "next/font/google";
-import { useCallback, useRef, useState } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,83 +13,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-/**
- * Add arbitrary wait so you can see the loading message.
- * The request returns so quickly that you can't see the loading message in the UI.
- * This is because I can't retrieve more than 10 results from the TV Maze API, and so I made the paging value 3 instead of 10.
- */
-const WaitSoYouCanSeeTheLoadingLogic = async () => {
-  console.log("waiting so you can see the loading logic");
-  await new Promise((resolve) => setTimeout(resolve, 900));
-};
-
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [shows, setShows] = useState<Show[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState<boolean | null>(null);
-  const observer = useRef<IntersectionObserver | null>(null);
+  const {
+    searchTerm,
+    setSearchTerm,
+    shows,
+    loading,
+    hasMore,
+    fetchShows,
+    resetSearch,
+  } = useSearchShows();
 
-  const fetchShows = useCallback(async () => {
-    if (loading || !searchTerm || !hasMore) {
-      return;
-    }
-
-    setLoading(true);
-
-    await WaitSoYouCanSeeTheLoadingLogic();
-
-    try {
-      const response = await fetch(
-        `/api/search/shows?term=${searchTerm}&page=${page}&size=3`
-      );
-      const data = await response.json();
-
-      if (!data.shows.length) {
-        return;
-      }
-
-      setShows((prevShows: Show[]) => [
-        ...new Set([...prevShows, ...data.shows]),
-      ]);
-      setPage((prevPage) => prevPage + 1);
-      setHasMore(data.hasMorePages);
-    } catch (error) {
-      console.error("Error fetching shows:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [searchTerm, page, loading, hasMore]);
-
-  const lastShowElementRef = useCallback(
-    (node: any) => {
-      if (loading) return;
-
-      if (observer.current) {
-        observer.current?.disconnect();
-      }
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          fetchShows();
-        }
-      });
-
-      if (node) {
-        observer.current.observe(node);
-      }
-    },
-    [loading, hasMore, fetchShows]
-  );
+  const lastShowElementRef = useInfiniteScroll(loading, hasMore, fetchShows);
 
   const handleSearchBoxChange = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === "Enter" || event.key === "Tab") {
-      setHasMore(true);
-      setPage(1);
-      setShows([]);
       fetchShows();
     }
   };
@@ -108,12 +49,13 @@ export default function Home() {
           onKeyDown={handleSearchBoxChange}
           onChange={(e) => {
             console.log("e.target.value", e.target.value);
+            resetSearch();
             setSearchTerm(e.target.value);
           }}
         />
 
         <ol className="list-outside list-decimal mt-6">
-          {shows.map((show, index) => (
+          {shows.map((show: Show, index: number) => (
             <li
               ref={index === shows.length - 1 ? lastShowElementRef : null}
               key={show.name}
