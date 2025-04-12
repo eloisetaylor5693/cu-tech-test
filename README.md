@@ -18,6 +18,13 @@ npm run dev
 ## Limitations
 
 - The tvmaze API does not support paging.
+- The tvmaze API seems to be limited to 10 results only.  I tried various search terms and none gave more than 10 results.  
+  - Tried these searches:
+    - https://api.tvmaze.com/search/shows?q=banana
+    - https://api.tvmaze.com/search/shows?q=the
+    - https://api.tvmaze.com/search/shows?q=and
+    - https://api.tvmaze.com/search/shows?q=a
+  - Therefore I changed the page size to 3 so you can see the infinite scroll
 
 ## Decisions
 
