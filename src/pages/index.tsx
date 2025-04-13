@@ -49,7 +49,7 @@ export default function Home() {
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start ">
         <h1 className="text-9xl  font-bold">Search shows</h1>
 
-        <p className="text-4xl">Press enter or tab to search</p>
+        <p className="text-4xl">Press enter to search</p>
         <input
           type="text"
           className="p-2 border border-gray-300 rounded-md"
