@@ -10,7 +10,7 @@ npm run dev
 
 - UI: [http://localhost:3000](http://localhost:3000)
 
-- API: [http://localhost:3000/api/search/shows?term=banana&size=100&page=1](http://localhost:3000/api/search/shows?term=banana&size=100&page=1)
+- API: [http://localhost:3000/api/search/shows?term=banana&size=10&page=1](http://localhost:3000/api/search/shows?term=banana&size=100&page=1)
   - term = the search term
   - page = the page number of the resultset (defaults to 1)
   - size = the page size / results to include in the response from this api (defaults to 10)
