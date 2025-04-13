@@ -53,6 +53,6 @@ npm run dev
 
 - UI
   - Split the homepage code into multiple components. Eg header, search, results
-- Added unit testing. For timeesake I decided to prioritise the fuctionality and the bonus part of the task. In my day-to-day work I almost always add or extend unit tests
+- Added unit testing. For timesake I decided to prioritise the fuctionality and the bonus part of the task. In my day-to-day work I almost always add or extend unit tests
 - Added a CI pipeline to verify the quality of the code and whether it builds
 - The types are in a types folder. I generally prefer to have the types close to the application logic, but there are so few files due to there only being one thing implemented, it seemed clearer to put the types in one folder. I could have created more nested folder structure as if this api was one of many, but thought it would look more confusing.
