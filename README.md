@@ -15,6 +15,14 @@ npm run dev
   - page = the page number of the resultset (defaults to 1)
   - size = the page size / results to include in the response from this api (defaults to 10)
 
+## What it looks like
+
+![initial search](docs/onInitialSearch.png)
+
+![search results loaded](docs/searchResultsLoaded.png)
+
+![on scrolling, infinite scroll triggered](docs/infiniteScrollTriggered.png)
+
 ## Limitations
 
 - The tvmaze API does not seem to support paging https://www.tvmaze.com/api#show-search.
@@ -28,7 +36,7 @@ npm run dev
 
 ## Decisions
 
-- Using **nextjs** because it's really quick and easy to spin up a backend and frontned layer
+- Using **nextjs** because it's really quick and easy to spin up a backend and frontend layer, and routing comes out-the-box
 - Using **Axios** because it's an easy to use library
 - Implemented caching with **axios-cache-interceptor** because it plugs in nicely with axios, and persists caching of different requests. **fetch** only seems to cache the last request, so when the search term changes, the next request is not cached even if the term was searched recently
 - Used comically large fonts, and split the name and genres on 2 lines so that you can see the infinite scrolling. Without this everything loads before you get a change to scroll because everything is in view
@@ -39,6 +47,7 @@ npm run dev
 ## With more time I would have...
 
 - API
+
   - Considered using Redis so the cache isn't in memory
   - Wrapped the TV Maze to abstract from the implementation. Currently the call and the types are in with my application logic. The service is very simple atm, so seemed prudent to wait to see how complex the logic may get
 
